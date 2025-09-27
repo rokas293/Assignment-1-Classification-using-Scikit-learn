@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
 
 # Load dataset
 wildfire_training_data = pd.read_csv("wildfires_training.csv")
@@ -173,3 +174,24 @@ if best_accuracy > best_accuracy_randomforest:
 else:
     print(f"  Random Forest with {best_params_randomforest}")
     print(f"  Test Accuracy: {best_accuracy_randomforest:.3f}")
+
+
+# Simple graph visualization
+
+print(f"\nGenerating results chart...")
+
+# Creating a comparison bar chart
+models = ['Logistic Default', 'Logistic Best', 'RandomF Default', 'RandomF Best']
+scores = [
+    accuracy_score(test_fire_labels, test_predictions_logistic),
+    best_accuracy,
+    accuracy_score(test_fire_labels, test_predictions_forest),
+    best_accuracy_randomforest
+]
+
+plt.figure(figsize=(8, 5))
+plt.bar(models, scores, color=['lightblue', 'blue', 'lightcoral', 'red'])
+plt.ylabel('Test Accuracy')
+plt.title('Model Results Comparison')
+plt.ylim(0.8, 1.0)
+plt.show()
