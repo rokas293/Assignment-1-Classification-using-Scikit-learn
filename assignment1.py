@@ -15,13 +15,32 @@ test_features = wildfire_test_data.drop("fire", axis=1)
 test_fire_labels = wildfire_test_data["fire"]
 
 # --- Model 1: Logistic Regression ---
+# Create the model using default parameters
 wildfire_logistic_model = LogisticRegression(max_iter=1000)  # increased max_iter for convergence
+# Train the model using the training data
 wildfire_logistic_model.fit(training_features, training_fire_labels)
 
+# Make predictions on both training and test datasets
 training_predictions_logistic = wildfire_logistic_model.predict(training_features)
 test_predictions_logistic = wildfire_logistic_model.predict(test_features)
 
+# Print results
 print("Logistic Regression:")
 print("  Train Accuracy:", accuracy_score(training_fire_labels, training_predictions_logistic))
 print("  Test Accuracy: ", accuracy_score(test_fire_labels, test_predictions_logistic))
 
+# --- Model 2: Random Forest ---
+# Create the Random Forest model but with default parameters
+wildfire_forest_model = RandomForestClassifier(random_state=42)
+
+# Train the random forest model using the training data
+wildfire_forest_model.fit(training_features, training_fire_labels)
+
+# Make predictions on both training and test datasets
+training_predictions_forest = wildfire_forest_model.predict(training_features)
+test_predictions_forest = wildfire_forest_model.predict(test_features)
+
+# Print results
+print("\nRandom Forest:")
+print("  Train Accuracy:", accuracy_score(training_fire_labels, training_predictions_forest))
+print("  Test Accuracy: ", accuracy_score(test_fire_labels, test_predictions_forest))
