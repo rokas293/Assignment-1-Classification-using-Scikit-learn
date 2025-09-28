@@ -15,6 +15,24 @@ training_fire_labels = wildfire_training_data["fire"]
 test_features = wildfire_test_data.drop("fire", axis=1) 
 test_fire_labels = wildfire_test_data["fire"]
 
+
+# Data statistics before training
+
+
+print("Dataset Overview Before Training")
+
+print(f"Training samples: {len(training_features)}")
+print(f"Test samples: {len(test_features)}")
+print(f"Number of features: {len(training_features.columns)}")
+print(f"Features: {list(training_features.columns)}")
+
+print(f"\nClass distribution in training data:")
+class_counts = training_fire_labels.value_counts()
+for class_name, count in class_counts.items():
+    percentage = (count / len(training_fire_labels)) * 100
+    print(f"  {class_name}: {count} samples ({percentage:.1f}%)\n")
+
+
 # --- Model 1: Logistic Regression ---
 # Create the model using default parameters
 wildfire_logistic_model = LogisticRegression(max_iter=1000)  # increased max_iter for convergence
@@ -174,24 +192,3 @@ if best_accuracy > best_accuracy_randomforest:
 else:
     print(f"  Random Forest with {best_params_randomforest}")
     print(f"  Test Accuracy: {best_accuracy_randomforest:.3f}")
-
-
-# Simple graph visualization
-
-print(f"\nGenerating results chart...")
-
-# Creating a comparison bar chart
-models = ['Logistic Default', 'Logistic Best', 'RandomF Default', 'RandomF Best']
-scores = [
-    accuracy_score(test_fire_labels, test_predictions_logistic),
-    best_accuracy,
-    accuracy_score(test_fire_labels, test_predictions_forest),
-    best_accuracy_randomforest
-]
-
-plt.figure(figsize=(8, 5))
-plt.bar(models, scores, color=['lightblue', 'blue', 'lightcoral', 'red'])
-plt.ylabel('Test Accuracy')
-plt.title('Model Results Comparison')
-plt.ylim(0.8, 1.0)
-plt.show()
