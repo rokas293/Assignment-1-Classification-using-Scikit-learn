@@ -192,3 +192,21 @@ if best_accuracy > best_accuracy_randomforest:
 else:
     print(f"  Random Forest with {best_params_randomforest}")
     print(f"  Test Accuracy: {best_accuracy_randomforest:.3f}")
+
+# Comparison graph
+print(f"\nGenerating comparison...")
+
+models = ['Logistic Default', 'Logistic Best', 'RandomF Default', 'RandomF Best']
+scores = [
+    accuracy_score(test_fire_labels, test_predictions_logistic),
+    best_accuracy,
+    accuracy_score(test_fire_labels, test_predictions_forest),
+    best_accuracy_randomforest
+]
+
+plt.figure(figsize=(8, 5))
+plt.bar(models, scores, color=['lightblue', 'blue', 'lightcoral', 'red'])
+plt.ylabel('Test Accuracy')
+plt.title('Algorithm Comparison')
+plt.ylim(0.8, 1.0)
+plt.show()
